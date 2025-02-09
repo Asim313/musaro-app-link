@@ -5,9 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Open Musaro App</title>
     <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            const screen = params.get("screen") || "home"; // Default screen if not provided
+            params.delete("screen"); // Remove screen from params to avoid duplication
+            return { screen, queryString: params.toString() };
+        }
+
         function openApp() {
-            // Try opening the app
-            window.location.href = "musaro://";
+            const { screen, queryString } = getQueryParams();
+            const appUrl = queryString ? `musaro://${screen}?${queryString}` : `musaro://${screen}`;
+            
+            // Try opening the app with parameters
+            window.location.href = appUrl;
             
             // Redirect to Play Store if app is not installed (after delay)
             setTimeout(() => {
@@ -18,6 +28,10 @@
 </head>
 <body onload="openApp()">
     <h1>Opening Musaro App...</h1>
-    <p>If the app does not open, <a href="musaro://">click here</a> or install it from the <a href="https://play.google.com/store/apps/details?id=com.musaro">Play Store</a>.</p>
+    <p>If the app does not open, <a id="appLink" href="musaro://home">click here</a> or install it from the <a href="https://play.google.com/store/apps/details?id=com.musaro">Play Store</a>.</p>
+    <script>
+        const { screen, queryString } = getQueryParams();
+        document.getElementById("appLink").href = queryString ? `musaro://${screen}?${queryString}` : `musaro://${screen}`;
+    </script>
 </body>
 </html>
