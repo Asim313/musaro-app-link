@@ -16,10 +16,15 @@
             const { screen, id } = getQueryParams();
             const appUrl = id ? `musaro://${screen}/${id}` : `musaro://${screen}`;
             
-           // alert(`Opening app: ${appUrl}`); // Show alert with the URL
+            alert(`Opening app: ${appUrl}`); // Show alert with the URL
             
-            // Try opening the app with parameters
-            window.location.href = appUrl;
+            // Create an invisible link to trigger the app selection popup
+            const link = document.createElement('a');
+            link.href = appUrl;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
             
             // Redirect to Play Store if app is not installed (after delay)
             setTimeout(() => {
