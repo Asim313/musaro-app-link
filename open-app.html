@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Musaro App</title>
+    <script>
+        function openApp() {
+            // Try opening the app
+            window.location.href = "musaro://";
+            
+            // Redirect to Play Store if app is not installed (after delay)
+            setTimeout(() => {
+                window.location.href = "https://play.google.com/store/apps/details?id=com.musaro";
+            }, 2000);
+        }
+    </script>
+</head>
+<body onload="openApp()">
+    <h1>Opening Musaro App...</h1>
+    <p>If the app does not open, <a href="musaro://">click here</a> or install it from the <a href="https://play.google.com/store/apps/details?id=com.musaro">Play Store</a>.</p>
+</body>
+</html>
