@@ -15,8 +15,12 @@
         function openApp() {
             const { screen, id } = getQueryParams();
             const appUrl = id ? `musaro://${screen}/${id}` : `musaro://${screen}`;
+            const androidStoreUrl = `https://play.google.com/store/apps/details?id=com.musaro&referrer=${encodeURIComponent(`screen=${screen}&id=${id}`)}`;
+            const iosStoreUrl = `https://apps.apple.com/app/id6736371356`; // Replace with actual App Store ID
             
             alert(`Opening app: ${appUrl}`); // Show alert with the URL
+            
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
             
             // Create an invisible link to trigger the app selection popup
             const link = document.createElement('a');
@@ -26,22 +30,26 @@
             link.click();
             document.body.removeChild(link);
             
-            // Redirect to Play Store if app is not installed (after delay)
+            // Redirect to App Store or Play Store if the app is not installed (after delay)
             setTimeout(() => {
-                const referrer = encodeURIComponent(`screen=${screen}&id=${id}`);
-                window.location.href = `https://play.google.com/store/apps/details?id=com.musaro&referrer=${referrer}`;
+                if (isIOS) {
+                    window.location.href = iosStoreUrl;
+                } else {
+                    window.location.href = androidStoreUrl;
+                }
             }, 2000);
         }
     </script>
 </head>
 <body onload="openApp()">
     <h1>Opening Musaro App...</h1>
-    <p>If the app does not open, <a id="appLink" href="musaro://home">click here</a> or install it from the <a id="storeLink" href="https://play.google.com/store/apps/details?id=com.musaro">Play Store</a>.</p>
+    <p>If the app does not open, <a id="appLink" href="musaro://home">click here</a> or install it from the <a id="storeLink" href="https://play.google.com/store/apps/details?id=com.musaro">Play Store</a> (Android) or the <a id="iosStoreLink" href="https://apps.apple.com/app/idYOUR_APP_ID">App Store</a> (iOS).</p>
     <script>
         const { screen, id } = getQueryParams();
         document.getElementById("appLink").href = id ? `musaro://${screen}/${id}` : `musaro://${screen}`;
         const referrer = encodeURIComponent(`screen=${screen}&id=${id}`);
         document.getElementById("storeLink").href = `https://play.google.com/store/apps/details?id=com.musaro&referrer=${referrer}`;
+        document.getElementById("iosStoreLink").href = `https://apps.apple.com/app/id6736371356`; // Replace with actual App Store ID
     </script>
 </body>
 </html>
