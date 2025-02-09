@@ -7,7 +7,7 @@
     <script>
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
-            const screen = params.get("screen") || "home"; // Default screen if not provided
+            const screen = params.get("screen") || "trendDetaild"; // Default screen if not provided
             const id = params.get("id") || ""; // ID is optional
             return { screen, id };
         }
@@ -15,6 +15,8 @@
         function openApp() {
             const { screen, id } = getQueryParams();
             const appUrl = id ? `musaro://${screen}/${id}` : `musaro://${screen}`;
+            
+            alert(`Opening app: ${appUrl}`); // Show alert with the URL
             
             // Try opening the app with parameters
             window.location.href = appUrl;
