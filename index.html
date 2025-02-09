@@ -16,24 +16,27 @@
             const { screen, id } = getQueryParams();
             const appUrl = id ? `musaro://${screen}/${id}` : `musaro://${screen}`;
             
-            //alert(`Opening app: ${appUrl}`); // Show alert with the URL
+            alert(`Opening app: ${appUrl}`); // Show alert with the URL
             
             // Try opening the app with parameters
             window.location.href = appUrl;
             
             // Redirect to Play Store if app is not installed (after delay)
             setTimeout(() => {
-                window.location.href = "https://play.google.com/store/apps/details?id=com.musaro";
+                const referrer = encodeURIComponent(`screen=${screen}&id=${id}`);
+                window.location.href = `https://play.google.com/store/apps/details?id=com.musaro&referrer=${referrer}`;
             }, 2000);
         }
     </script>
 </head>
 <body onload="openApp()">
     <h1>Opening Musaro App...</h1>
-    <p>If the app does not open, <a id="appLink" href="musaro://home">click here</a> or install it from the <a href="https://play.google.com/store/apps/details?id=com.musaro">Play Store</a>.</p>
+    <p>If the app does not open, <a id="appLink" href="musaro://home">click here</a> or install it from the <a id="storeLink" href="https://play.google.com/store/apps/details?id=com.musaro">Play Store</a>.</p>
     <script>
         const { screen, id } = getQueryParams();
         document.getElementById("appLink").href = id ? `musaro://${screen}/${id}` : `musaro://${screen}`;
+        const referrer = encodeURIComponent(`screen=${screen}&id=${id}`);
+        document.getElementById("storeLink").href = `https://play.google.com/store/apps/details?id=com.musaro&referrer=${referrer}`;
     </script>
 </body>
 </html>
